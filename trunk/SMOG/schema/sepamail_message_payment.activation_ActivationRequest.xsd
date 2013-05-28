@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:p13="urn:iso:std:iso:20022:tech:xsd:pain.013.001.01"
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Message du service Rubis, demandant un paiement.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+  <include schemaLocation="type_sepamail_payment.xsd" />
+
+  <import schemaLocation="pain.013.001.01.xsd"
+	  namespace="urn:iso:std:iso:20022:tech:xsd:pain.013.001.01" />
+
+  <element name="PaymentActivationRequest"
+	   type="sem:PaymentActivationRequest" />
+
+  <complexType name="PaymentActivationRequest">
+    <choice>
+      <element name="sepamail_message_payment_activation_request_001"
+	       type="sem:sepamail_message_payment_activation_request_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_message_payment_activation_request_001">
+    <sequence>
+      <element name="Header" type="sem:RequestHeader" />
+      <element name="ReqCompl" type="sem:RequestAndComplements"
+	       minOccurs="1" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="RequestHeader">
+    <sequence>
+      <element name="CreDtTm" type="sem:ISODateTime" />
+      <element name="NbOfRequests" type="integer" />
+      <element name="Documents" type="sem:Document"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="RequestAndComplements">
+    <sequence>
+      <element name="Request" type="p13:CreditorPaymentActivationRequestV01" />
+      <element name="Complements" type="sem:RequestComplements" />
+    </sequence>
+  </complexType>
+
+  <complexType name="RequestComplements">
+    <sequence>
+      <element name="Title" type="sem:Max140Text" />
+      <element name="PmtCond" type="sem:PaymentConditions" />
+      <element name="OtherPmtMtd" type="sem:PaymentMethod"
+	       minOccurs="0" maxOccurs="1" />
+      <element name="PmtGuarantee" type="sem:GuaranteeType"
+	       minOccurs="0" maxOccurs="1" />
+      <element name="TrfNature" type="sem:TransferNature" minOccurs="0" />
+      <element name="CustRef" type="sem:Max70Text"
+	       minOccurs="0" maxOccurs="3"/>
+      <element name="RltnType" type="sem:RelationType" />
+    </sequence>
+  </complexType>
+
+  <complexType name="PaymentConditions">
+    <sequence>
+      <element name="PmtModifAccepted" type="boolean" />
+      <element name="ImmPmtAccepted" type="boolean" />
+      <element name="DelayPenalty" type="sem:Max140Text"
+	       minOccurs="0" maxOccurs="1" />
+      <element name="ImmPmtRebate" type="sem:PercentageRate"
+	       minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <simpleType name="RelationType">
+    <restriction base="string">
+      <enumeration value="B2B" />
+      <enumeration value="B2C" />
+      <enumeration value="C2B" />
+      <enumeration value="C2C" />
+    </restriction>
+  </simpleType>
+
+</schema>

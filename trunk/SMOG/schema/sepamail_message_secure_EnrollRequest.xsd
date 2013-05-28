@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01">
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Message permettant l'inscription d'un nouvel intervenant dans le système Sepamail.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+  <include schemaLocation="type_sepamail_qxcard.xsd" />
+
+  <import schemaLocation="pain.009.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01" />
+
+  <element name="EnrollRequest" type="sem:SecureEnrollRequest" />
+
+  <complexType name="SecureEnrollRequest">
+    <choice>
+      <element name="sepamail_message_secure_enroll_request_001"
+	       type="sem:sepamail_message_secure_enroll_request_001" />
+    </choice>
+  </complexType>
+    
+  <complexType name="sepamail_message_secure_enroll_request_001">
+    <annotation>
+      <documentation xml:lang="fr">
+	Les elements (identifiant, certificat, famille) se trouvent
+	dans le ou les elements CommunicationElement
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="CreDtTm" type="sem:ISODateTime" />
+      <element name="SndrRef" type="sem:Max70Text" maxOccurs="1" minOccurs="0" />
+      <element name="EnrollCode" type="sem:Max35Text" />
+      <element name="Sndr" type="p09:PartyIdentification32" />
+      <element name="SndrBIC" type="sem:AnyBICIdentifier" />
+      <element name="SndrQxCard" type="sem:qxCard" />
+      <element name="CommunicationElement" type="sem:FamilyCertificate"
+	       minOccurs="1" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+</schema>

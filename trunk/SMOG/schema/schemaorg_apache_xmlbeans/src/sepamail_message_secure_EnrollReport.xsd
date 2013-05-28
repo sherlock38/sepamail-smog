@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Message de réponse à l'inscription d'un nouvel intervenant :
+      acceptation ou refus de ses éléments cryptographiques,
+      communication des éléments crypto du serveur ...
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+
+  <element name="EnrollReport" type="sem:SecureEnrollReport" />
+
+  <complexType name="SecureEnrollReport">
+    <choice>
+      <element name="sepamail_message_secure_enroll_report_001"
+	       type="sem:sepamail_message_secure_enroll_report_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_message_secure_enroll_report_001">
+    <sequence>
+      <element name="CreDtTm" type="sem:ISODateTime" />
+      <element name="SndrRef" />
+      <element name="Report" type="sem:KeyReport"
+	       minOccurs="1" maxOccurs="unbounded" />
+      <element name="OtherIdentif" type="sem:RIS2DIdentifier" 
+	       minOccurs="0" maxOccurs="1" />
+      <element name="CommunicationElement" type="sem:FamilyCertificate"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="KeyReport">
+    <sequence>
+      <element name="CertifId" type="sem:Max35Text" />
+      <element name="Accepted" type="boolean" />
+      <element name="Reason" type="sem:Max140Text" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+</schema>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:p14="urn:iso:std:iso:20022:tech:xsd:pain.014.001.01"
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Message du service Rubis, acceptant ou refusant un paiement.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$ 
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+  <include schemaLocation="type_sepamail_payment.xsd" />
+
+  <import schemaLocation="pain.014.001.01.xsd"
+	  namespace="urn:iso:std:iso:20022:tech:xsd:pain.014.001.01" />
+
+  <element name="PaymentActivationReport"
+	   type="sem:PaymentActivationReport" />
+
+  <complexType name="PaymentActivationReport">
+    <choice>
+      <element name="sepamail_message_payment_activation_report_001"
+	       type="sem:sepamail_message_payment_activation_report_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_message_payment_activation_report_001">
+    <sequence>
+      <element name="Header" type="sem:ReportHeader" />
+      <element name="RepCompl" type="sem:ReportAndComplements"
+	       minOccurs="1" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="ReportHeader">
+    <sequence>
+      <element name="CreDtTm" type="sem:ISODateTime" />
+      <element name="NbOfReports" type="integer" />
+      <element name="Documents" type="sem:Document"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="ReportAndComplements">
+    <sequence>
+      <element name="Report" type="p14:CreditorPaymentActivationRequestStatusReportV01" />
+      <element name="Complements" type="sem:ReportComplements" />
+    </sequence>
+  </complexType>
+
+  <complexType name="ReportComplements">
+    <sequence>
+      <element name="OtherPmtMtd" type="sem:PaymentMethodAndId"
+	       minOccurs="0" maxOccurs="1" />
+      <element name="PmtGuarantee" type="sem:GuaranteeType"
+	       minOccurs="0" maxOccurs="1" />
+      <element name="ImmPmt" type="boolean" />
+      <element name="ImmPmtRebate" type="sem:PercentageRate"
+	       minOccurs="0" maxOccurs="1" />
+      <element name="PmtModif" type="sem:ModifiedPayment"
+	       minOccurs="0" maxOccurs="unbounded" />
+      <element name="TrfNature" type="sem:TransferNature" minOccurs="0" />
+      <element name="CustRef" type="sem:Max70Text"
+	       minOccurs="0" maxOccurs="3" />
+      <element name="DecisionDate" type="sem:ISODateTime" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <complexType name="ModifiedPayment">
+    <sequence>
+      <element name="PmtId" type="sem:Max35Text" />
+      <element name="Amt" type="p14:ActiveOrHistoricCurrencyAndAmount" />
+    </sequence>
+  </complexType>
+
+</schema>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Description du message générique de Sepamail. Ceci s'applique à
+      tous les messages, et donc ne comporte qu'un en-tête standard et
+      un body pouvant s'adapter à tous les payloads.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <annotation>
+    <documentation xml:lang="fr">Inclusion des librairies de type sepa</documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Inclusion des differents schemas de messages
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="sepamail_message_direct.debit_MandateAcceptanceReport.xsd" />
+  <include schemaLocation="sepamail_message_direct.debit_MandateInitiationRequest.xsd" />
+  <include schemaLocation="sepamail_message_direct.debit_Prenotification.xsd" />
+  <include schemaLocation="sepamail_message_direct.debit_RequestForCopy.xsd" />
+  <include schemaLocation="sepamail_message_secure_EnrollRequest.xsd" />
+  <include schemaLocation="sepamail_message_secure_EnrollReport.xsd" />
+  <include schemaLocation="sepamail_message_secure_EnrollAdvise.xsd" />
+  <include schemaLocation="sepamail_message_payment.activation_ActivationRequest.xsd" />
+  <include schemaLocation="sepamail_message_payment.activation_ActivationReport.xsd" />
+  <include schemaLocation="sepamail_message_payment.activation_ActivationEnroll.xsd" />
+  <include schemaLocation="sepamail_message_smapi.xsd" />
+  <include schemaLocation="sepamail_message_identification.verification_VerificationReport.xsd" />
+  <include schemaLocation="sepamail_message_identification.verification_VerificationRequest.xsd" />
+  <include schemaLocation="sepamail_message_test_SimpleTestRequest.xsd" />
+  <include schemaLocation="sepamail_message_test_SimpleTestReport.xsd" />
+
+  <complexType name="Message">
+    <choice>
+      <element name="sepamail_message_001" type="sem:sepamail_message_001" />
+    </choice>
+    <attribute name="version" type="sem:VersionNumber" use="optional">
+      <annotation>
+	<documentation xml:lang="fr">
+	  Cet attribut peut contenir la version de la norme ayant
+	  servi à créer le message, selon des règles précisées dans la
+	  documentation.
+	  </documentation>
+      </annotation>
+    </attribute>
+  </complexType>
+
+  <complexType name="sepamail_message_001">
+    <sequence>
+      <element name="MsgHdr" type="sem:MessageHeader" />
+      <element name="MsgBdy" type="sem:MessageBody" />
+    </sequence>
+  </complexType>
+
+  <complexType name="MessageHeader">
+    <sequence>
+      <element name="MsgId" type="sem:UniqueIdentifier" />
+      <element name="MsgTyp" type="sem:MessageType" />
+      <element name="MsgRedir" type="sem:Redirection"
+	       minOccurs="0" maxOccurs="unbounded" />
+      <element name="MsgRef" type="sem:MessageReference"
+	       minOccurs = "0" maxOccurs="unbounded" />
+      <element name="MsgExpiry" type="sem:ISODateTime" minOccurs="0" />
+    </sequence>
+  </complexType>
+ 
+  <complexType name="MessageBody">
+    <choice>
+      <element name="DirectDebitMandateAcceptance" type="sem:DirectDebitMandateAcceptance" />
+      <element name="DirectDebitMandat" type="sem:DirectDebitMandat" />
+      <element name="DirectDebitPrenotif" type="sem:DirectDebitPrenotif" />
+      <element name="DirectDebitRFCopy" type="sem:DirectDebitRFCopy" />
+      <element name="SecureEnrollRequest" type="sem:SecureEnrollRequest" />
+      <element name="SecureEnrollReport" type="sem:SecureEnrollReport" />
+      <element name="SecureEnrollAdvise" type="sem:SecureEnrollAdvise" />
+      <element name="PaymentActivationRequest" type="sem:PaymentActivationRequest" />
+      <element name="PaymentActivationReport" type="sem:PaymentActivationReport" />
+      <element name="PaymentActivationEnroll" type="sem:PaymentActivationEnroll" />
+      <element name="VerificationReport" type="sem:VerificationReport" />
+      <element name="VerificationRequest" type="sem:VerificationRequest" />
+      <element name="SimpleTestRequest" type="sem:SimpleTestRequest" />
+      <element name="SimpleTestReport" type="sem:SimpleTestReport" />
+      <element name="SmapiRequest" type="sem:sepamail_message_smapi_request_001" />
+      <element name="SmapiResponse" type="sem:sepamail_message_smapi_response_001" />
+    </choice>
+  </complexType>
+
+</schema>

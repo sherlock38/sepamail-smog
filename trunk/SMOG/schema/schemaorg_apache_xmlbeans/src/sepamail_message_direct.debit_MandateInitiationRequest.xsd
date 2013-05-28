@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+  xmlns:p12="urn:iso:std:iso:20022:tech:xsd:pain.012.001.01" xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01"
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Message du service Gemme, demandant ou confirmant la création
+      d'un mandat.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+
+  <import schemaLocation="pain.009.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01" />
+
+  <element name="DirectDebitMandat" type="sem:DirectDebitMandat" />
+
+  <complexType name="DirectDebitMandat">
+    <choice>
+      <element name="sepamail_message_direct_debit_mandat_001"
+	       type="sem:sepamail_message_direct_debit_mandat_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_message_direct_debit_mandat_001">
+    <sequence>
+      <element name="Mandat">
+	<annotation>
+	  <documentation xml:lang="fr">
+	    En provenance de pain.009.001.01 (ISO 20022)
+	  </documentation>
+	</annotation>
+	<complexType>
+	  <complexContent>
+	    <extension base="p09:MandateInitiationRequestV01">
+	      <attribute name="id" type="sem:Max70Text" use="optional">
+		<annotation>
+		  <documentation xml:lang="fr">
+		    Cet attribut est utile pour indiquer au module de signature que seul cet élément doit être signé numériquement.
+		    cf recommandations w3c xmldsig
+		  </documentation>
+		</annotation>
+	      </attribute>
+	    </extension>
+	  </complexContent>
+	</complexType>
+      </element>
+
+      <element name="DSExt" type="sem:AroundMandat" />
+    </sequence>
+  </complexType>
+
+  <complexType name="AroundMandat">
+    <sequence>
+      <element name="SndMaxDT" type="sem:ISODateTime" maxOccurs="1" minOccurs="0" />
+      <element name="Status" type="sem:StatusCode" maxOccurs="1" minOccurs="1" />
+      <element name="SignTp" type="sem:SignTypeCode" maxOccurs="1" minOccurs="1" />
+      <element name="RtrPmt" type="sem:ChargeBearerType1Code" maxOccurs="1" minOccurs="0" />
+      <element name="Document" type="sem:Document" maxOccurs="unbounded" minOccurs="0" />
+      <element name="DbtrSignature" type="sem:Signature" maxOccurs="1" minOccurs="1" />
+      <element name="CdtrSignature" type="sem:Signature" maxOccurs="1" minOccurs="0" />
+      <element name="CdtrLogo" type="sem:Image"  maxOccurs="1" minOccurs="0" />
+      <element name="DbtFirstName" type="sem:PersonName" minOccurs="0" maxOccurs="1" />
+      <element name="DbtLastName" type="sem:PersonName" minOccurs="0" maxOccurs="1" />
+      <element name="DbtLastNameType" type="sem:PersonNameType" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+</schema>

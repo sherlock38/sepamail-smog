@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Message du servive Gemme, demandant une copie du mandat ou
+      d'éléments reliés.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+
+  <import schemaLocation="pain.009.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01" />
+
+  <element name="DirectDebitRFCopy"
+	   type="sem:DirectDebitRFCopy" />
+
+  <complexType name="DirectDebitRFCopy">
+    <choice>
+      <element name="sepamail_message_direct_debit_request_for_copy_001"
+	       type="sem:sepamail_message_direct_debit_request_for_copy_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_message_direct_debit_request_for_copy_001">
+    <sequence>
+      <element name="GrpHdr" type="sem:RFCHeader" />
+      <element name="Request" type="sem:Request" />
+    </sequence>
+  </complexType>
+
+  <complexType name="RFCHeader">
+    <sequence>
+      <element name="RequestId" type="sem:Max35Text" />
+      <element name="CreDtTm" type="sem:ISODateTime" />
+    </sequence>
+  </complexType>
+
+  <complexType name="Request">
+    <sequence>
+      <element name="CtrRef" type="sem:Max70Text" maxOccurs="1" minOccurs ="0" />
+      <element name="Cdtr" type="p09:PartyIdentification32" />
+      <element maxOccurs="1" minOccurs="0" name="CdtrAcct" type="p09:CashAccount16" />
+      <element maxOccurs="1" minOccurs="0" name="CdtrAgt" type="p09:BranchAndFinancialInstitutionIdentification4"/>
+      <element maxOccurs="1" minOccurs="0" name="UltmtCdtr" type="p09:PartyIdentification32"/>
+      <element name="Dbtr" type="p09:PartyIdentification32"/>
+      <element maxOccurs="1" minOccurs="0" name="DbtrAcct" type="p09:CashAccount16"/>
+      <element name="DbtrAgt" type="p09:BranchAndFinancialInstitutionIdentification4"/>
+      <element name="Trans" type="sem:Transaction" minOccurs="1" maxOccurs="1" />
+      <element name="Mandate" type="sem:Document" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+</schema>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+  <include schemaLocation="type_sepamail_icqx.xsd" />
+
+  <element name="ActivationAdvise" type="sem:CreditorActivationAdvise">
+    <annotation>
+      <documentation xml:lang="fr">
+	Envoi d'information sur un créancier dans le référentiel ICQX@SCHEME
+	(C) Copyright SEPAmail.eu 2008-2012
+	$Revision: 140 $
+	$LastChangedDate:: 2012-04-24 12:08:19 +0200 #$
+      </documentation>
+    </annotation>
+  </element>
+
+  <complexType name="CreditorActivationAdvise">
+    <choice>
+      <element name="sepamail_creditor_activation_advise_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_creditor_activation_advise_001">
+    <sequence>
+      <element name="ICQX" type="sem:ICQX" />
+      <element name="SvcCard" type="sem:ServiceCard" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+</schema>

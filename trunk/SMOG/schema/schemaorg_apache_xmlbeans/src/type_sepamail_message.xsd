@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Types utilisés dans tous les messages de Sepamail.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 183 $
+      $LastChangedDate:: 2013-04-09 10:19:52 +0200 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+
+  <import schemaLocation="pain.009.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01" />
+  <import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd" />
+
+  <simpleType name="ChargeBearerType1Code">
+    <restriction base="string">
+      <enumeration value="CRED"/>
+      <enumeration value="DEBT"/>
+      <enumeration value="SHAR"/>
+      <enumeration value="SLEV"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="Grouping1Code">
+    <restriction base="string">
+      <enumeration value="GRPD"/>
+      <enumeration value="MIXD"/>
+      <enumeration value="SNGL"/>
+    </restriction>
+  </simpleType>    
+
+  <simpleType name="StatusCode">
+    <annotation>
+      <documentation xml:lang="en">
+	Based on PaymentStatusCode, but only some values are kept
+      </documentation>
+    </annotation>
+
+    <restriction base="string">
+      <enumeration value="PDNG" />
+      <enumeration value="ACCP" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="SignTypeCode">
+    <restriction base="string">
+      <enumeration value="manual" />
+      <enumeration value="sepamail" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="DocumentType">
+    <restriction base="string">
+      <enumeration value="mandate" />
+      <enumeration value="invoice" />
+      <enumeration value="information" />
+    </restriction>
+  </simpleType>
+
+  <complexType name="Transaction">
+    <sequence>
+      <element name="TrsDate" type="sem:ISODate" />
+      <element name="TrsAmt" type="p09:ActiveCurrencyAndAmount" />
+      <element name="TrsId" type="sem:Max35Text" minOccurs="0" />
+      <element name="Accepted" type="boolean" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <complexType name="SenderIdentifier">
+    <choice>
+      <element name="IBAN" type="sem:IBAN2007Identifier" />
+      <element name="PAN" type="sem:PANIdentifier" />
+      <element name="BBAN" type="sem:BBANIdentifier" />
+      <element name="phoneNumber" type="p09:PhoneNumber" />
+      <element name="mailAddr" type="sem:EmailAddress" />
+    </choice>
+  </complexType>
+
+  <complexType name="FamilyCertificate">
+    <annotation>
+      <documentation xml:lang="fr">
+	Contient un identifiant a usage interne (CertifId), un ou deux
+	certificats avec l'identifiant associe (X509Certificate et
+	KeyName dans les KeyInfo), et une ou plusieurs familles de
+	messages (Family) pour lesquelles ce ou ces certificats sont
+	utilises.  Le booleen Allow precise si ce certificat doit etre
+	ajoute ou retire a la liste actuelle.
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="CertifId" type="sem:Max35Text" />
+      <element name="Allow" type="boolean" />
+      <element name="SignKey" type="ds:KeyInfoType" />
+      <element name="CryptKey" type="ds:KeyInfoType"
+	       minOccurs="0" maxOccurs="1" />
+      <element name="Family" type="sem:MessageFamily"
+	       minOccurs="1" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="Document">
+    <sequence>
+      <element name="Type" type="sem:DocumentType" />
+      <element name="Date" type="sem:ISODate" minOccurs="0" maxOccurs="1" />
+      <element name="Title" type="sem:Max140Text" />
+      <element name="Reference" type="sem:Max140Text" />
+      <element name="Lang" type="language" />
+      <element name="Contents" type="sem:Attachment"
+	       minOccurs="0" maxOccurs="1">
+	<annotation>
+	  <documentation xml:lang="fr">
+	    Ce champ peut contenir par exemple, soit un scan du mandat ou du contrat, soit une URL permettant d'y acceder
+	  </documentation>
+	</annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="MessageReference">
+    <sequence>
+      <element name="MsgId" type="sem:UniqueIdentifier" />
+      <element name="Relation" type="sem:Max70Text" />
+    </sequence>
+  </complexType>
+
+  <complexType name="Redirection">
+    <annotation>
+      <documentation xml:lang="fr">
+	Ce champ contient une adresse de redirection, soit une
+	référence interne (numéro de bureau ou de téléphone), soit une
+	URI. L'interprétation en est dans tous les cas laissée au
+	destinataire.
+      </documentation>
+    </annotation>
+    <choice>
+      <element name="InternalReference" type="sem:Max70Text" />
+      <element name="RedirectURI" type="anyURI" />
+    </choice>
+  </complexType>
+
+  <simpleType name="MessageType">
+    <annotation>
+      <documentation xml:lang="fr">
+        Type du message : type@classe (énumération)
+	  la classe est incluse dans le type afin de gérer
+          correctement les contraintes entre type et classe
+      </documentation>
+    </annotation>
+    <restriction base="string">
+      <enumeration value="simple.request@test" />
+      <enumeration value="simple.report@test" />
+      <enumeration value="mandat@direct.debit" />
+      <enumeration value="rapport@direct.debit" />
+      <enumeration value="notification@direct.debit" />
+      <enumeration value="request.copy@direct.debit" />
+      <enumeration value="enroll.request@secure" />
+      <enumeration value="enroll.report@secure" />
+      <enumeration value="enroll.advise@secure" />
+      <enumeration value="activation.request@payment.activation" />
+      <enumeration value="activation.report@payment.activation" />
+      <enumeration value="activation.enroll@payment.activation" />
+      <enumeration value="request@smapi" />
+      <enumeration value="response@smapi" />
+      <enumeration value="report@identification.verification" />
+      <enumeration value="request@identification.verification" />
+    </restriction>
+  </simpleType>
+
+</schema>

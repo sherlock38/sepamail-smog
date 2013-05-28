@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+  xmlns:a24="urn:iso:std:iso:20022:tech:xsd:acmt.024.001.01" 
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Message du service Diamond, indiquant une vérification d'identité.
+      (C) Copyright BPCE 2008-2012
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+  <include schemaLocation="type_sepamail_verification.xsd" />
+
+  <import schemaLocation="acmt.024.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:acmt.024.001.01" />
+
+  <element name="VerificationReport" type="sem:VerificationReport">
+    <annotation>
+      <documentation xml:lang="fr">
+        Élément de base, contenant tout le reste
+      </documentation>
+    </annotation>
+  </element>
+
+  <complexType name="VerificationReport">
+    <choice>
+      <element name="sepamail_verification_report_001"
+	       type="sem:sepamail_verification_report_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_verification_report_001">
+    <sequence>
+      <element name="Report" type="a24:IdentificationVerificationReportV01">
+	<annotation>
+	  <documentation xml:lang="fr">
+	    En provenance de acmt.024.001.01 (ISO 20022)
+	  </documentation>
+	</annotation>
+      </element>
+      <element name="Complement" type="sem:VerRepComplement" />
+    </sequence>
+  </complexType>
+
+  <complexType name="VerRepComplement">
+    <sequence>
+      <element name="CheckVersion" type="integer" />
+      <element name="VrfReportCompl" type="sem:VerificationReportComplement" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="VerificationReportComplement">
+    <sequence>
+      <element name="VerifId" type="sem:Max35Text" />
+      <element name="ReturnCode" type="sem:ReturnCode" maxOccurs="unbounded" />
+      <element name="BusRef" type="sem:BusinessReference" minOccurs="0" />
+      <element name="TrsInfo" type="sem:TransactionInfo"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="TransactionInfo">
+    <sequence>
+      <element name="Transaction" type="sem:TransactionType" />
+      <element name="Allowed" type="boolean" />
+    </sequence>
+  </complexType>
+
+  <simpleType name="ReturnCode">
+    <restriction base="string">
+      <pattern value="[0-9]{5,5}"/>
+    </restriction>
+  </simpleType>
+
+</schema>

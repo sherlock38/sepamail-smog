@@ -1,0 +1,43 @@
+<xb:config xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config"
+           xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:a23="urn:iso:std:iso:20022:tech:xsd:acmt.023.001.01"
+           xmlns:a24="urn:iso:std:iso:20022:tech:xsd:acmt.024.001.01"
+           xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01"
+           xmlns:p12="urn:iso:std:iso:20022:tech:xsd:pain.012.001.01"
+           xmlns:p13="urn:iso:std:iso:20022:tech:xsd:pain.013.001.01"
+           xmlns:p14="urn:iso:std:iso:20022:tech:xsd:pain.014.001.01"
+	       xmlns:sem="http://xsd.sepamail.eu/1206/">
+
+    <xb:namespace uri="http://www.w3.org/2000/09/xmldsig#">
+        <xb:package>smog.schema.ds</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="urn:iso:std:iso:20022:tech:xsd:acmt.023.001.01">
+        <xb:package>smog.schema.a23</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="urn:iso:std:iso:20022:tech:xsd:acmt.024.001.01">
+        <xb:package>smog.schema.a24</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01">
+        <xb:package>smog.schema.p09</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="urn:iso:std:iso:20022:tech:xsd:pain.012.001.01">
+        <xb:package>smog.schema.p12</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="urn:iso:std:iso:20022:tech:xsd:pain.013.001.01">
+        <xb:package>smog.schema.p13</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="urn:iso:std:iso:20022:tech:xsd:pain.014.001.01">
+        <xb:package>smog.schema.p14</xb:package>
+    </xb:namespace>
+
+    <xb:namespace uri="http://xsd.sepamail.eu/1206/">
+        <xb:package>smog.schema.sem</xb:package>
+    </xb:namespace>
+
+</xb:config>

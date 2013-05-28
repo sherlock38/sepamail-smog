@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Types utilisés dans l'ensemble de Sepamail
+      (C) Copyright BPCE 2008-2011
+      $Revision: 184 $
+      $LastChangedDate:: 2013-04-18 16:52:24 +0200 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+
+  <complexType name="Image">
+    <sequence>
+      <element name="mime-type">
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="image/gif" />
+            <enumeration value="image/jpeg" />
+            <enumeration value="image/png" />
+            <enumeration value="image/tiff" />
+            <enumeration value="image/vnd.microsoft.icon" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="data" type="anyType" />
+    </sequence>
+  </complexType>
+
+  <complexType name="Attachment">
+    <annotation>
+      <documentation xml:lang="fr">
+	Une piece jointe au sens MIME du terme, pas forcement une image
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="mime-type" type="sem:Max70Text" />
+      <element name="name" type="sem:Max140Text" minOccurs="0" />
+      <element name="data" type="anyType" />
+    </sequence>
+  </complexType>
+
+  <complexType name="Signature">
+    <sequence>
+      <element name="signature-type">
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="other" />
+            <enumeration value="electronic" />
+            <enumeration value="handwritten" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="data" type="anyType" />
+    </sequence>
+  </complexType>
+
+  <simpleType name="UniqueIdentifier">
+    <restriction base="string">
+      <minLength value="0" />
+      <maxLength value="200" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="PersonName">
+    <restriction base="sem:Max70Text" />
+  </simpleType>
+
+  <simpleType name="PersonNameType">
+    <restriction base="string">
+      <enumeration value="birthName" />
+      <enumeration value="maritalName" />
+      <enumeration value="alias" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="QXBAN">
+    <restriction base="sem:IBAN2007Identifier">
+      <pattern value="QX[0-9]{2,2}[a-zA-Z0-9]{1,30}"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="ICQX">
+    <restriction base="string">
+      <pattern value="QX[0-9]{2,2}[A-Z]{2,2}[a-zA-Z0-9]{7,29}"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="MessageFamily">
+    <annotation>
+      <documentation xml:lang="fr">
+        Familles de messages gérées par le système
+	Inclut la valeur "service" spécifique aux missives de service.
+      </documentation>
+    </annotation>
+    <restriction base="string">
+      <enumeration value="test" />
+      <enumeration value="secure" />
+      <enumeration value="direct.debit" />
+      <enumeration value="payment.activation" />
+      <enumeration value="identification.verification" />
+      <enumeration value="service" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="PANIdentifier">
+    <restriction base="string" />
+  </simpleType>
+
+  <simpleType name="BBANIdentifier">
+    <restriction base="string">
+      <minLength value="11" />
+      <maxLength value="30" />
+    </restriction>
+  </simpleType>
+
+  <complexType name="RIS2DIdentifier">
+    <complexContent>
+      <extension base="sem:Attachment" />
+    </complexContent>
+  </complexType>
+
+  <simpleType name="sepamailService">
+    <restriction base="string">
+      <enumeration value="GEMME" />
+      <enumeration value="RUBIS" />
+      <enumeration value="SAPPHIRE" />
+      <enumeration value="JADE" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="VersionNumber" >
+    <restriction base="string">
+      <pattern value="[1-9][0-9]{3,3}[_a-zA-Z0-9]{0,10}" />
+    </restriction>
+  </simpleType>
+
+</schema>
