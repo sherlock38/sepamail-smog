@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Types utilisés dans l'écosystème identification.verification de Sepamail
+      (C) Copyright BPCE 2008-2012
+      $Revision: 144 $
+      $LastChangedDate:: 2012-06-11 12:24:48 +0200 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+
+  <simpleType name="TransactionType">
+    <restriction base="sem:Max35Text">
+    </restriction>
+  </simpleType>
+
+  <complexType name="BusinessReference">
+    <sequence>
+      <element name="Type" type="sem:Max16Text" />
+      <element name="Value" type="sem:Max35Text" />
+    </sequence>
+  </complexType>
+
+</schema>

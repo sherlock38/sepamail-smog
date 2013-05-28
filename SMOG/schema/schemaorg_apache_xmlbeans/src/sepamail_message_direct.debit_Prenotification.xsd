@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01"
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Message du service Gemme, notifiant au débiteur un ou plusieurs
+      prélèvements à venir.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+
+  <import schemaLocation="pain.009.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01" />
+
+  <element name="DirectDebitPrenotif"
+	   type="sem:DirectDebitPrenotif" />
+
+  <complexType name="DirectDebitPrenotif">
+    <choice>
+      <element name="sepamail_message_direct_debit_prenotif_001"
+	       type="sem:sepamail_message_direct_debit_prenotif_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_message_direct_debit_prenotif_001">
+    <sequence>
+      <element name="GrpHdr" type="sem:GroupHeader" />
+      <element name="Notif" type="sem:Prenotif" />
+    </sequence>
+  </complexType>
+
+  <complexType name="GroupHeader">
+    <sequence>
+      <element name="CreDtTm" type="sem:ISODateTime" />
+
+      <element name="NbOfTxs" maxOccurs="1" minOccurs="0">
+        <simpleType>
+          <restriction base="int" />
+        </simpleType>
+      </element>
+      <element name="Grpg" type="sem:Grouping1Code" maxOccurs="1" minOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="Prenotif">
+    <sequence>
+      <element name="PntId" type="sem:Max35Text" />
+      <element name="MndtId" type="sem:Max35Text" />
+      <element name="CtrRef" type="sem:Max70Text" />
+
+      <element name="Cdtr" type="p09:PartyIdentification32" />
+      <element maxOccurs="1" minOccurs="0" name="CdtrAcct" type="p09:CashAccount16" />
+      <element maxOccurs="1" minOccurs="0" name="CdtrAgt" type="p09:BranchAndFinancialInstitutionIdentification4" />
+      <element maxOccurs="1" minOccurs="0" name="UltmtCdtr" type="p09:PartyIdentification32" />
+      <element name="Dbtr" type="p09:PartyIdentification32" />
+      <element maxOccurs="1" minOccurs="0" name="DbtrAcct" type="p09:CashAccount16" />
+      <element name="DbtrAgt" type="p09:BranchAndFinancialInstitutionIdentification4" />
+      <element name="Trans" type="sem:Transactions" />
+    </sequence>
+  </complexType>
+
+  <complexType name="Transactions">
+    <sequence>
+      <element name="Trs" type="sem:Transaction" minOccurs="1" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+</schema>

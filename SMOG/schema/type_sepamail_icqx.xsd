@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Définition de l'ICQXCard SEPAmail.
+      (C) Copyright SEPAMAIL.EU 2008-2012
+      $Revision: 130 $
+      $LastChangedDate:: 2012-01-19 11:07:37 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+
+  <import schemaLocation="pain.009.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01" />
+
+  <complexType name="ICQXCard">
+    <sequence>
+      <element name="ICQX" type="sem:ICQX" minOccurs="0" />
+      <element name="BIC" type="sem:AnyBICIdentifier" />
+      <element name="Identity" type="sem:IdentityElement" />
+      <element name="Identification" type="sem:IdentificationElement" />
+      <element name="Validity" type="sem:ValidityElement" />
+    </sequence>
+  </complexType>
+
+  <complexType name="IdentityElement">
+    <sequence>
+      <element name="PartyName" type="sem:Max140Text" />
+      <element name="DisplayName" type="sem:Max140Text" minOccurs="0" />
+      <element name="Logo" type="sem:Image" minOccurs="0" />
+      <element name="Thumbnail" type="sem:Image" minOccurs="0" />
+      <element name="PstlAdr" type="p09:PostalAddress6" />
+    </sequence>
+  </complexType>
+      
+  <complexType name="IdentificationElement">
+    <sequence>
+      <element name="OrgId" type="p09:GenericOrganisationIdentification1" 
+	       maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="ValidityElement">
+    <sequence>
+      <element name="ValidStartDate" type="sem:ISODate" />
+      <element name="ValidEndDate" type="sem:ISODate" />
+      <element name="LastUpdateDate" type="sem:ISODate" />
+      <element name="Test" type="boolean" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <complexType name="ServiceCard">
+    <sequence>
+      <element name="SvcName" type="sem:ServiceName" />
+      <element name="Active" type="boolean" />
+      <element name="Scope" type="sem:ScopeType" />
+      <element name="QXBAN" type="sem:QXBAN" 
+	       maxOccurs="unbounded" />
+      <element name="customerHelp" type="sem:customerInfo"
+	       minOccurs="0" maxOccurs="3" />
+    </sequence>
+  </complexType>
+
+  <complexType name="customerInfo">
+    <sequence>
+      <element name="identifierName" type="sem:Max70Text" />
+      <element name="helpText" type="string" maxOccurs="unbounded" />
+      <element name="helpImage" type="sem:Image"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <simpleType name="ServiceName">
+    <restriction base="string">
+      <enumeration value="RUBIS_inscription" />
+      <enumeration value="RUBIS_emission" />
+      <enumeration value="RUBIS_reception" />
+      <enumeration value="DIAMOND_emission" />
+      <enumeration value="GEMME_emission" />
+      <enumeration value="GEMME_reception" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="ScopeType">
+    <restriction base="string">
+      <enumeration value="global" />
+      <enumeration value="local" />
+    </restriction>
+  </simpleType>
+
+</schema>

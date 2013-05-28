@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+	>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Types utilisés dans la missive de Sepamail.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <simpleType name="AcquittementStatus">
+    <restriction base="string">
+      <enumeration value="ACK"/>
+      <enumeration value="NAK"/>
+    </restriction>
+  </simpleType>
+
+  <complexType name="BICorIBAN">
+    <sequence>
+      <element name="BIC" type="sem:AnyBICIdentifier" minOccurs="0" />
+      <element name="IBAN" type="sem:IBAN2007Identifier" minOccurs="0" />
+    </sequence>
+  </complexType>
+    
+  <complexType name="ReceiverIdentifier">
+    <sequence>
+      <element name="BIC" type="sem:AnyBICIdentifier" minOccurs="0" />
+      <element name="IBAN" type="sem:IBAN2007Identifier" minOccurs="0" />
+      <element name="PAN" type="sem:PANIdentifier" minOccurs="0" />
+      <element name="BBAN" type="sem:BBANIdentifier" minOccurs="0" />
+      <element name="RIS2D" type="sem:RIS2DIdentifier" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <simpleType name="PriorityCode">
+    <restriction base="string">
+      <enumeration value="HIGHEST"/>
+      <enumeration value="HIGH"/>
+      <enumeration value="NORMAL"/>
+      <enumeration value="LOW"/>
+      <enumeration value="LOWEST"/>
+    </restriction>
+  </simpleType>
+
+  <complexType name="SenderOrReceiver">
+    <choice>
+      <element name="Sender" type="sem:AnyBICIdentifier" />
+      <element name="Receiver" type="sem:AnyBICIdentifier" />
+    </choice>
+  </complexType>
+
+</schema>

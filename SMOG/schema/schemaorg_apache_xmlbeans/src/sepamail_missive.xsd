@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Missive de Sepamail. Cet élément sert à transporter toutes
+      sortes de messages, ou autres contenus. Elle joue le rôle
+      d'enveloppe, qui peut être acheminée par divers moyens.
+      Elle contient essentiellement :
+        * un identifiant unique de la missive 
+	* le numéro de version utilisée de la missive
+	* le type de missive (nominal, acquittement, service)
+	* un numéro d'ordre d'envoi (en cas de plusieurs envois pour
+	tester la qualité de la chaîne d'émission/transport/réception/décryptage)
+	* un entête de missive contenant :
+          * expéditeur, type, date/heure d'expédition,
+	  * destinataire, type
+	  * chaine de contrôle pour acquittement de la missive
+	  * somme de contrôle pour acquittement de l'encodage de l'entête complet de la missive
+	* un éventuel acquittement en cas de missive d'acquittement
+	* un message de service
+	* un corps de missive contenant (a priori) le message en lui-même
+	* une signature electronique
+
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <import schemaLocation="xmldsig-core-schema.xsd"
+	  namespace="http://www.w3.org/2000/09/xmldsig#">
+    <annotation>
+      <documentation xml:lang="fr">
+	Importation du schema XMLDsig
+      </documentation>
+    </annotation>
+  </import>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_missive.xsd" />
+  <include schemaLocation="sepamail_message.xsd" />
+
+  <annotation>
+    <documentation xml:lang="fr">
+    </documentation>
+  </annotation>
+
+  <element name="Missive" type="sem:Missive">
+    <annotation>
+      <documentation xml:lang="fr">
+        Élément de base, contenant tout le reste
+      </documentation>
+    </annotation>
+  </element>
+  
+  <complexType name="Missive">
+    <choice>
+      <element name="sepamail_missive_001" type="sem:sepamail_missive_001" />
+    </choice>
+
+    <attribute name="version" type="sem:VersionNumber" use="required">
+      <annotation>
+	<documentation xml:lang="fr">
+	  Cet attribut peut contenir la version de la norme ayant
+	  servi à créer la missive, selon des règles précisées dans la
+	  documentation.
+	  </documentation>
+      </annotation>
+    </attribute>
+  </complexType>
+
+  <complexType name="sepamail_missive_001">
+    <sequence>
+      <element name="MsvId" type="sem:UniqueIdentifier" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation xml:lang="fr">Identifiant unique de la missive génération à déterminer</documentation>
+        </annotation>
+      </element>
+      <element name="MsvTyp" type="sem:MissiveType" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation xml:lang="fr">
+            Le type de la missive est une énumération de trois types : nominal, missive nominale,
+            demandant acquittement - acquittement, missive d'acquittement, sans acquittement pour ne
+            pas boucler - service, missive de service
+          </documentation>
+        </annotation>
+      </element>
+      <element name="MsvOrd" type="integer" minOccurs="1" maxOccurs="1" />
+      <element name="MsvPri" type="sem:PriorityCode" minOccurs="0" />
+      <element name="MsvHdr" type="sem:MissiveHeader" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation xml:lang="fr">
+            L'entête de la missive qui est une séquence d'attributs décrivant l'expédition, la
+            destination de la missive
+          </documentation>
+        </annotation>
+      </element>
+      <element name="MsvAcq" type="sem:MissiveAcquittement" minOccurs="0" maxOccurs="1">
+        <annotation>
+          <documentation xml:lang="fr">
+            la partie acquittement permet l'acquittement de la missive, sorte de reçu de sécurité
+          </documentation>
+        </annotation>
+      </element>
+      <element name="MsvSrv" type="sem:MissiveService" minOccurs="0" maxOccurs="1">
+        <annotation>
+          <documentation xml:lang="fr">
+            la partie service permet l'envoi de commandes et de réponses, notamment par le biais d'un web service
+          </documentation>
+        </annotation>
+      </element>
+      <element name="MsvBdy" type="sem:Message" minOccurs="0" maxOccurs="1"/>
+      <element ref="ds:Signature"  minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <complexType name="MissiveHeader">
+    <sequence>
+      <element name="Snd" type="sem:BICorIBAN" />
+      <element name="SndDtTm" type="sem:ISODateTime" />
+      <element name="SndChk" type="sem:Max140Text" minOccurs="0" />
+      <element name="Rcv" type="sem:ReceiverIdentifier" />
+      <element name="RcvDtTm" type="sem:ISODateTime"
+	       minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="MissiveAcquittement">
+    <sequence>
+      <element name="AcqSta" type="sem:AcquittementStatus" />
+      <element name="AcqCla" type="integer" minOccurs="0"/>
+      <element name="AcqSub" type="integer" minOccurs="0" />
+      <element name="AcqDet" type="integer" minOccurs="0" />
+      <element name="AcqChk" type="sem:Max70Text" minOccurs="0" />
+      <element name="AcqDes" type="sem:Max140Text" minOccurs="0" />
+      <element name="RtgWarn" type="sem:RoutingWarning"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="MissiveService">
+    <sequence>
+      <choice>
+	<element name="SrvCmd" type="sem:MissiveServiceCommand" />
+	<element name="SrvRes" type="sem:MissiveServiceResult" />
+      </choice>
+      <element name="SrvInfo" type="string" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <complexType name="MissiveServiceCommand">
+    <sequence>
+      <element name="CmdTyp" type="sem:ServiceCommandType" />
+      <element name="CmdNum" type="integer" minOccurs="0" />
+      <element name="CmdSlc" type="sem:MessageSelect" minOccurs="0" />
+      <element name="CmdFlt" type="sem:Filters" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="MissiveServiceResult">
+    <sequence>
+      <element name="ResTyp" type="sem:ServiceResultType" />
+      <element name="ResNum" type="integer" minOccurs="0" />
+      <element name="ResSize" type="integer" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <complexType name="RoutingWarning">
+    <sequence>
+      <element name="Code" type="sem:RoutingCode" />
+      <element name="Descr" type="sem:Max140Text" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+  <simpleType name="RoutingCode">
+    <restriction base="string">
+      <enumeration value="BAD_TIME" />
+      <enumeration value="PRIO_HIGH" />
+      <enumeration value="PRIO_NORM" />
+      <enumeration value="PRIO_LOW" />
+      <enumeration value="PRIO_XLOW" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="ServiceCommandType">
+    <restriction base="string">
+      <enumeration value="LIST" />
+      <enumeration value="NOOP" />
+      <enumeration value="DELE" />
+      <enumeration value="RETR" />
+      <enumeration value="STAT" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="ServiceResultType">
+    <restriction base="string">
+      <enumeration value="+OK" />
+      <enumeration value="-ERR" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="MissiveType">
+    <restriction base="string">
+      <enumeration value="Nominal" />
+      <enumeration value="Acquittement" />
+      <enumeration value="Acknowledgement" />
+      <enumeration value="Service" />
+      <enumeration value="SMAPI" />
+    </restriction>
+  </simpleType>
+
+  <complexType name="Filters">
+    <sequence>
+      <element name="Fltr" type="sem:Filter"
+	       minOccurs="0" maxOccurs="unbounded">
+      </element>
+    </sequence>
+  </complexType>
+
+  <simpleType name="Filter">
+    <annotation>
+      <documentation xml:lang="fr">
+        Cette chaine doit etre un filtre XPath
+      </documentation>
+    </annotation>
+    <restriction base="string" />
+  </simpleType>
+
+  <simpleType name="MessageSelect">
+    <restriction base="string">
+      <enumeration value="ALL" />
+      <enumeration value="UNREAD" />
+      <enumeration value="SENT" />
+    </restriction>
+  </simpleType>
+</schema>

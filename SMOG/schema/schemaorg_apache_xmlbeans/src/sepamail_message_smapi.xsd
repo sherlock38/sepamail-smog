@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Description des messages liés à l'API de Sepamail.
+      Dans l'état actuel des choses, tous les messages sont décrits ici.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+
+  <complexType name="sepamail_message_smapi_request_001">
+  </complexType>
+
+  <complexType name="sepamail_message_smapi_response_001">
+  </complexType>
+
+</schema>

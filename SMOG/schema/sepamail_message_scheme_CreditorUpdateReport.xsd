@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+  <include schemaLocation="type_sepamail_message.xsd" />
+  <include schemaLocation="type_sepamail_icqx.xsd" />
+
+  <element name="UpdateReport" type="sem:CreditorUpdateReport">
+    <annotation>
+      <documentation xml:lang="fr">
+	Mise à jour d'un créancier dans le référentiel ICQX@SCHEME : réponse
+	(C) Copyright SEPAmail.eu 2008-2012
+	$Revision: 140 $
+	$LastChangedDate:: 2012-04-24 12:08:19 +0200 #$
+      </documentation>
+    </annotation>
+  </element>
+
+  <complexType name="CreditorUpdateReport">
+    <choice>
+      <element name="sepamail_creditor_update_report_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_creditor_update_report_001">
+    <sequence>
+      <element name="RequestId" type="sem:UniqueIdentifier" />
+      <element name="Accepted" type="boolean" />
+      <element name="Reason" type="sem:Max140Text" minOccurs="0" />
+      <element name="ICQXCard" type="sem:ICQXCard" minOccurs="0" />
+    </sequence>
+  </complexType>
+
+</schema>

@@ -1,0 +1,1 @@
+./scomp -d /home/bishan/NetBeansProjects/SMOG/schema/ -src /home/bishan/NetBeansProjects/SMOG/src/ -javasource 1.7 /home/bishan/NetBeansProjects/SMOG/schema/sepamail_missive.xsd /home/bishan/NetBeansProjects/SMOG/schema/config.xsdconfig -out /home/bishan/NetBeansProjects/SMOG/lib/sepamail_missive.jar

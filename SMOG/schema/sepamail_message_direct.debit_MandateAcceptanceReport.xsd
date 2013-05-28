@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/" 
+  xmlns:p12="urn:iso:std:iso:20022:tech:xsd:pain.012.001.01" xmlns:p09="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01"
+>
+  <annotation>
+    <documentation xml:lang="fr">
+      Message du service Gemme, acceptant ou refusant un mandat.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd"/>
+  <include schemaLocation="type_sepamail_message.xsd" />
+
+  <import schemaLocation="pain.012.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.012.001.01" />
+  <import schemaLocation="pain.009.001.01.xsd" namespace="urn:iso:std:iso:20022:tech:xsd:pain.009.001.01" />
+
+  <element name="DirectDebitMandateAcceptance"
+	   type="sem:DirectDebitMandateAcceptance" />
+
+  <complexType name="DirectDebitMandateAcceptance">
+    <choice>
+      <element name="sepamail_message_direct_debit_mandate_acceptance_001"
+	       type="sem:sepamail_message_direct_debit_mandate_acceptance_001" />
+    </choice>
+  </complexType>
+
+  <complexType name="sepamail_message_direct_debit_mandate_acceptance_001">
+    <sequence>
+      <element name="Report" type="p12:MandateAcceptanceReportV01">
+	<annotation>
+	  <documentation xml:lang="fr">
+	    En provenance de pain.012.001.01 (ISO 20022)
+	  </documentation>
+	</annotation>
+      </element>
+      <element name="DSExt" type="sem:AroundAcceptance" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="AroundAcceptance">
+    <sequence>
+      <annotation>
+	<documentation xml:lang="fr">
+	  Ces champs sont destinés à notifier un changement de BIC/IBAN
+	</documentation>
+      </annotation>
+      <element name="BIC" type="sem:AnyBICIdentifier" />
+      <element name="IBAN" type="p09:IBAN2007Identifier" />
+    </sequence>
+  </complexType>
+
+</schema>

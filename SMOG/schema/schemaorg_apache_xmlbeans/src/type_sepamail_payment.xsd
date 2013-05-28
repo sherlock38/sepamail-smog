@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Types utilisés dans le service Rubis (payment activation) de Sepamail
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+
+  <simpleType name="PaymentMethod">
+    <restriction base="string">
+      <enumeration value="CHK" />
+      <enumeration value="TRF" />
+      <enumeration value="CARD" />
+      <enumeration value="DD" />
+    </restriction>
+  </simpleType>
+
+  <complexType name="CommunicationConditions">
+    <sequence>
+      <element name="Enrolled" type="boolean" />
+      <element name="SendFullInvoice" type="boolean"
+	       minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="PaymentMethodAndId">
+    <sequence>
+      <element name="PmtMtd" type="sem:PaymentMethod" />
+      <element name="PmtMtdId" type="sem:Max70Text"
+	       minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <simpleType name="GuaranteeType">
+    <restriction base="string">
+      <enumeration value="AUTO" />
+      <enumeration value="DBTR" />
+      <enumeration value="NONE" />
+      <enumeration value="XXXX" />
+    </restriction>
+  </simpleType>
+    
+  <simpleType name="TransferNature">
+    <restriction base="string">
+      <enumeration value="IMMED" />
+      <enumeration value="TERM" />
+    </restriction>
+  </simpleType>
+
+</schema>

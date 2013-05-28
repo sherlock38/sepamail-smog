@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/"
+	elementFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:sem="http://xsd.sepamail.eu/1206/"
+>
+
+  <annotation>
+    <documentation xml:lang="fr">
+      Définition de la qxCard Sepamail.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="type_sepa.xsd" />
+  <include schemaLocation="type_sepamail_general.xsd" />
+
+  <complexType name="qxCard">
+    <sequence>
+      <element name="PartyName" type="sem:Max70Text" />
+      <element name="DisplayName" type="sem:Max35Text" minOccurs="0" />
+      <element name="RIS2D" type="sem:RIS2DIdentifier"
+	       minOccurs="0" maxOccurs="1" />	       
+      <element name="Test" type="boolean" minOccurs="0" />
+      <element name="QXBAN" type="sem:IBAN2007Identifier" />
+      <element name="ICQX" type="sem:ICQX" minOccurs="0" />
+      <element name="Services" type="sem:sepamailService"
+	       maxOccurs="unbounded" />
+      <choice>
+	<element name="CdtrElements" type="sem:CdtrQxCard" />
+	<element name="DbtrElements" type="sem:DbtrQxCard" />
+      </choice>
+    </sequence>
+  </complexType>
+
+  <complexType name="CdtrQxCard">
+    <sequence>
+      <element name="Logo" type="sem:Image" minOccurs="0" />
+      <element name="Thumbnail" type="sem:Image" minOccurs="0" />
+      <element name="customerHelp" type="sem:customerInfo"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="DbtrQxCard">
+  </complexType>
+
+  <complexType name="customerInfo">
+    <sequence>
+      <element name="identifierName" type="sem:Max70Text" />
+      <element name="helpText" type="string" maxOccurs="unbounded" />
+      <element name="helpImage" type="sem:Image"
+	       minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+</schema>

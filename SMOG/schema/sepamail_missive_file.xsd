@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://xsd.sepamail.eu/1206/" elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:sem="http://xsd.sepamail.eu/1206/">
+  <annotation>
+    <documentation xml:lang="fr">
+      Missive de Sepamail sous forme d'un fichier.
+      (C) Copyright BPCE 2008-2011
+      $Revision: 181 $
+      $LastChangedDate:: 2012-11-28 10:00:38 +0100 #$
+    </documentation>
+  </annotation>
+
+  <include schemaLocation="sepamail_missive.xsd" />
+
+  <element name="Fichier" type="sem:Fichier" />
+
+  <complexType name="Fichier">
+    <sequence>
+      <element name="DatTim" type="sem:ISODateTime" />
+      <element name="Partner" type="sem:SenderOrReceiver" />
+      <element name="NbMsv" type="integer" />
+      <element name="Msv" type="sem:Missive" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+</schema>
