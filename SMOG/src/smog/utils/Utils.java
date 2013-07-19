@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.UUID;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlObject;
 
 /**
  *
@@ -66,5 +69,65 @@ public class Utils {
 
         // File content
         return IOUtils.toByteArray(fis);
+    }
+
+    /**
+     * Get content of file encoded in Base64 wrapped in an XML object
+     *
+     * @param file File that needs to be encoded and wrapped in XML object
+     * @return XML object containing encoded file content
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static XmlObject getFileContentAsXml(File file) throws FileNotFoundException, IOException {
+
+        // XML fragment that will contain the file content
+        XmlObject xo = XmlObject.Factory.newInstance();
+
+        // Read and encode file content
+        String encodedContent = Base64.encodeBase64String(getFileContent(file));
+
+        // Create cursor
+        XmlCursor c = xo.newCursor();
+
+        // Move to start of document
+        c.toStartDoc();
+
+        // Set content of object
+        c.setTextValue(encodedContent);
+
+        // Dispose cursor
+        c.dispose();
+
+        return xo;
+    }
+
+    /**
+     * Get content of byte array encoded in Base64 wrapped in an XML object
+     *
+     * @param content Byte array content to be encoded and wrapped in XML object
+     * @return XML object containing encoded file content
+     */
+    public static XmlObject getByteContentAsXml(byte[] content) {
+
+        // XML fragment that will contain the file content
+        XmlObject xo = XmlObject.Factory.newInstance();
+
+        // Read and encode file content
+        String encodedContent = Base64.encodeBase64String(content);
+
+        // Create cursor
+        XmlCursor c = xo.newCursor();
+
+        // Move to start of document
+        c.toStartDoc();
+
+        // Set content of object
+        c.setTextValue(encodedContent);
+
+        // Dispose cursor
+        c.dispose();
+
+        return xo;
     }
 }

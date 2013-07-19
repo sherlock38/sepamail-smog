@@ -14,7 +14,7 @@ import smog.schema.sem.SimpleTestRequest;
 import smog.utils.Utils;
 
 /**
- * SepamailTestRequestDocument creates a SEPAmail simple.request@test document.
+ * SepamailTestRequestDocument creates a SEPAmail simple test request document.
  *
  * @author Bishan Kumar Madhoo <bishan.madhoo@idsoft.mu>
  */
@@ -58,8 +58,8 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
         this.simpleTestRequest.setTestId(testId);
         this.simpleTestRequest.setText(text);
 
-        // Build the simple.request@test document
-        this.createDocument();
+        // Build the simple.request@test missive
+        this.createMissive();
     }
 
     /**
@@ -103,8 +103,8 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
         this.simpleTestRequest.setTestId(testId);
         this.simpleTestRequest.setText(text);
 
-        // Build the simple.request@test document
-        this.createDocument();
+        // Build the simple.request@test missive
+        this.createMissive();
     }
 
     /**
@@ -113,8 +113,8 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
     @Override
     public void build() {
 
-        // Build the missive document using fragments
-        this.createDocument();
+        // Build the missive using fragments
+        this.createMissive();
     }
 
     /**
@@ -166,8 +166,8 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
         // Remove the data content from the message
         this.simpleTestRequest.unsetData();
 
-        // Build the simple.request@test document
-        this.createDocument();
+        // Build the simple.request@test missive
+        this.createMissive();
     }
 
     /**
@@ -178,8 +178,8 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
         // Remove the text content from the message
         this.simpleTestRequest.unsetText();
 
-        // Build the simple.request@test document
-        this.createDocument();
+        // Build the simple.request@test missive
+        this.createMissive();
     }
 
     /**
@@ -198,8 +198,8 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
             this.simpleTestRequest.setData(Utils.getFileContent(dataFile));
         }
 
-        // Build the simple.request@test document
-        this.createDocument();
+        // Build the simple.request@test missive
+        this.createMissive();
     }
 
     /**
@@ -212,8 +212,8 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
         // Set the test ID
         this.simpleTestRequest.setTestId(testId);
 
-        // Build the document
-        this.createDocument();
+        // Build the missive
+        this.createMissive();
     }
 
     /**
@@ -230,14 +230,14 @@ public class SepamailTestRequestDocument extends DocumentBase implements Documen
             this.simpleTestRequest.setText(text);
         }
 
-        // Build the document
-        this.createDocument();
+        // Build the missive
+        this.createMissive();
     }
 
     /**
-     * Build a missive document
+     * Build the missive
      */
-    private void createDocument() {
+    private void createMissive() {
 
         // Add the simple.request@test message to the message body
         this.messageBody.setSimpleTestRequest(this.simpleTestRequest);

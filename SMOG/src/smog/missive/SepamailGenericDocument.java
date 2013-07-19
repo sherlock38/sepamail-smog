@@ -53,8 +53,8 @@ public class SepamailGenericDocument extends DocumentBase implements DocumentInt
         // Set the message type
         this.assignMessageType(messageType);
 
-        // Build the simple.request@test document
-        this.createDocument();
+        // Build the simple.request@test missive
+        this.createMissive();
     }
 
     /**
@@ -91,8 +91,8 @@ public class SepamailGenericDocument extends DocumentBase implements DocumentInt
         // Set the message type
         this.assignMessageType(messageType);
 
-        // Build the simple.request@test document
-        this.createDocument();
+        // Build the simple.request@test missive
+        this.createMissive();
     }
 
     /**
@@ -101,8 +101,8 @@ public class SepamailGenericDocument extends DocumentBase implements DocumentInt
     @Override
     public void build() {
 
-        // Build the missive document using fragments
-        this.createDocument();
+        // Build the missive using fragments
+        this.createMissive();
     }
 
     /**
@@ -162,8 +162,8 @@ public class SepamailGenericDocument extends DocumentBase implements DocumentInt
         // Assign the message content of the SEPAmail missive
         this.sepamailGenericMessage = sepamailGenericMessage;
 
-        // Build the missive document
-        this.createDocument();
+        // Build the missive
+        this.createMissive();
     }
 
     /**
@@ -176,8 +176,8 @@ public class SepamailGenericDocument extends DocumentBase implements DocumentInt
         // Set the message type
         this.assignMessageType(messageType);
 
-        // Build the missive document
-        this.createDocument();
+        // Build the missive
+        this.createMissive();
     }
 
     /**
@@ -260,9 +260,9 @@ public class SepamailGenericDocument extends DocumentBase implements DocumentInt
     }
 
     /**
-     * Build a missive document
+     * Build the missive
      */
-    private void createDocument() {
+    private void createMissive() {
 
         // New instance of message body wrapper
         this.messageBody = MessageBody.Factory.newInstance();
