@@ -2,8 +2,6 @@ package smog.missive;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -30,7 +28,6 @@ public class SepamailTestRequestDocumentTest {
     private Calendar messageExpiry;
     private String messageTestId;
     private String messageText;
-    private String messageType;
     private ReceiverIdentifier recipient;
     private Calendar sendDateTime;
     private BICorIBAN sender;
@@ -54,7 +51,9 @@ public class SepamailTestRequestDocumentTest {
         this.messageText = "simple.request@test test text.";
 
         // Message encoded data
-        this.messageEncodedData = "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90FHQYiBduya34AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADklEQVQY02NgGAWDEwAAAZoAAQuinR8AAAAASUVORK5CYII=";
+        this.messageEncodedData = "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL" +
+                "2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90FHQYiBduya34AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTV" +
+                "BXgQ4XAAAADklEQVQY02NgGAWDEwAAAZoAAQuinR8AAAAASUVORK5CYII=";
 
         // Initialise the missive recipient
         this.recipient = ReceiverIdentifier.Factory.newInstance();
@@ -77,7 +76,7 @@ public class SepamailTestRequestDocumentTest {
         try {
 
             // Create data file
-            this.createDataFileFromEncodedString(this.messageDataFilename, this.messageEncodedData);
+            TestUtils.createDataFileFromEncodedString(this.messageDataFilename, this.messageEncodedData);
 
             // Data file instance
             File dataFile = new File(this.messageDataFilename);
@@ -187,13 +186,15 @@ public class SepamailTestRequestDocumentTest {
     public void testSetData() throws Exception {
 
         // New Base 64 encoded message data string
-        String newDataFileContent = "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90FHwcrGiyzf34AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoBMAAABpAAHAHfL4AAAAAElFTkSuQmCC";
+        String newDataFileContent = "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/" +
+                "oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90FHwcrGiyzf34AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJ" +
+                "TVBXgQ4XAAAADElEQVQI12NgoBMAAABpAAHAHfL4AAAAAElFTkSuQmCC";
 
         // New data filename
         String newDataFilename = "test_data_file_2.png";
 
         // Create new data file
-        this.createDataFileFromEncodedString(newDataFilename, newDataFileContent);
+        TestUtils.createDataFileFromEncodedString(newDataFilename, newDataFileContent);
 
         // New data file
         File newDataFile = new File(newDataFilename);
@@ -228,26 +229,5 @@ public class SepamailTestRequestDocumentTest {
         String newMessagetext = "This is another test message.";
         this.sepamailTestRequestDocument.setText(newMessagetext);
         assertEquals(newMessagetext, this.sepamailTestRequestDocument.getText());
-    }
-
-    /**
-     * Create a file using its Base64 encoded string
-     *
-     * @param filename Name of file to which data will be written
-     * @param encodedData Base64 encoded content of file
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    private void createDataFileFromEncodedString(String filename, String encodedData) throws FileNotFoundException,
-            IOException {
-
-        // Decode the data
-        byte[] decodedData = Base64.decodeBase64(encodedData);
-
-        // File output stream to write data to file
-        FileOutputStream fos = new FileOutputStream(new File(filename));
-
-        // Write data to file
-        IOUtils.write(decodedData, fos);
     }
 }

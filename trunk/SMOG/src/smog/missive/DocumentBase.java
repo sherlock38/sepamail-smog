@@ -106,16 +106,16 @@ public class DocumentBase implements DocumentInterface {
 
         // Initialise the suggested prefixes map
         this.suggestedPrefixes.put("http://www.w3.org/2000/09/xmldsig#", "ds");
-        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:acmt.023.001.01", "a23");
-        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:acmt.024.001.01", "a24");
-        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.009.001.01", "p09");
-        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.012.001.01", "p12");
-        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.013.001.01", "p13");
-        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.014.001.01", "p14");
+        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:acmt.023.001.01", "acmt023");
+        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:acmt.024.001.01", "acmt024");
+        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.009.001.01", "pain009");
+        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.012.001.01", "pain012");
+        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.013.001.01", "pain013");
+        this.suggestedPrefixes.put("urn:iso:std:iso:20022:tech:xsd:pain.014.001.01", "pain014");
         this.suggestedPrefixes.put("http://xsd.sepamail.eu/1206/", "sem");
 
-        // Create the missive envelope
-        this.createMissiveEnvelope();
+        // Create the missive
+        this.createMissive();
     }
 
     /**
@@ -163,8 +163,8 @@ public class DocumentBase implements DocumentInterface {
     @Override
     public void build() {
 
-        // Create the missive envelope
-        this.createMissiveEnvelope();
+        // Create the missive
+        this.createMissive();
     }
 
     /**
@@ -526,7 +526,7 @@ public class DocumentBase implements DocumentInterface {
         // Set the sender of the missive document
         this.missiveHeader.setSnd(sender);
 
-        // Build the missive document
+        // Build the missive
         this.build();
     }
 
@@ -540,7 +540,7 @@ public class DocumentBase implements DocumentInterface {
 
         // Add schema location attribute
         this.addSchemaLocation("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation", "xsi",
-                "http://www.sepamail.eu/xsd/bleedingEdge ../../xsd/sepamail_missive.xsd");
+                "http://xsd.sepamail.eu/1206/ xsd/sepamail_missive.xsd ");
 
         // XML options instance
         XmlOptions options = new XmlOptions();
@@ -606,7 +606,7 @@ public class DocumentBase implements DocumentInterface {
 
                 // Add validation message separtor
                 if (!validationMessage.equals("")) {
-                    validationMessage += ";";
+                    validationMessage += "\n";
                 }
 
                 // Concatenate validation messages
@@ -622,14 +622,14 @@ public class DocumentBase implements DocumentInterface {
      */
     protected void assembleDocument() {
 
-        // Create the missive envelope
-        this.createMissiveEnvelope();
+        // Create the missive
+        this.createMissive();
     }
 
     /**
-     * Create the missive envelope
+     * Create the missive
      */
-    private void createMissiveEnvelope() {
+    private void createMissive() {
 
         // Add the message header and body to its container
         this.sepamailMessage001.setMsgBdy(this.messageBody);
