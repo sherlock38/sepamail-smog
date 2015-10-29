@@ -1,0 +1,1 @@
+library generation SEPAmail objects (missive, message) from XML schema using XML Beans
